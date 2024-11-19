@@ -300,6 +300,27 @@ document.addEventListener('DOMContentLoaded', function() {
     let openWindows = [];
     updateSystemPerformance();
 
+    // Function to load content into windows
+    function loadWindowContent(windowId, contentUrl) {
+        const windowElement = document.getElementById(windowId);
+        const contentElement = windowElement.querySelector('.window-content');
+
+        fetch(contentUrl)
+            .then(response => response.text())
+            .then(html => {
+                contentElement.innerHTML = html;
+
+                // Re-initialize any event listeners or scripts for the new content here
+                if (windowId === 'portfolioWindow') {
+                    initializeProjectEventListeners();
+                }
+            })
+            .catch(error => {
+                contentElement.innerHTML = '<p>Error loading content.</p>';
+                console.error('Error loading content:', error);
+            });
+    }
+
     // Function to open windows
     function openWindow(windowId) {
         const windowElement = document.getElementById(windowId);
@@ -307,6 +328,26 @@ document.addEventListener('DOMContentLoaded', function() {
             windowElement.style.display = 'flex';
             openWindows.push(windowId);
             updateSystemPerformance();
+
+            // Load content based on windowId if not already loaded
+            if (!windowElement.dataset.loaded) {
+                switch(windowId) {
+                    case 'aboutWindow':
+                        loadWindowContent(windowId, 'about.html');
+                        break;
+                    case 'portfolioWindow':
+                        loadWindowContent(windowId, 'portfolio.html');
+                        break;
+                    case 'contactWindow':
+                        loadWindowContent(windowId, 'contact.html');
+                        break;
+                    case 'resumeWindow':
+                        loadWindowContent(windowId, 'resume.html');
+                        break;
+                    // Add cases for other windows as needed
+                }
+                windowElement.dataset.loaded = 'true';
+            }
         }
         bringToFront(windowElement);
         if (windowId === 'terminalWindow') {
@@ -473,9 +514,11 @@ document.addEventListener('DOMContentLoaded', function() {
         bringToFront(calendarWindow);
     });
 
-    calendarCloseButton.addEventListener('click', function() {
-        calendarWindow.style.display = 'none';
-    });
+    if (calendarCloseButton) {
+        calendarCloseButton.addEventListener('click', function() {
+            calendarWindow.style.display = 'none';
+        });
+    }
 
     document.addEventListener('click', function(e) {
         if (calendarWindow.style.display === 'block' &&
@@ -526,18 +569,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Portfolio Project Details
-    const projectElements = document.querySelectorAll('.project');
-    const projectList = document.getElementById('projectList');
-    const projectDetails = document.getElementById('projectDetails');
+    function initializeProjectEventListeners() {
+        const projectElements = document.querySelectorAll('.project');
+        const projectList = document.getElementById('projectList');
+        const projectDetails = document.getElementById('projectDetails');
 
-    projectElements.forEach(function(projectElement) {
-        projectElement.addEventListener('click', function() {
-            const projectId = projectElement.getAttribute('data-project');
-            loadProjectDetails(projectId);
+        projectElements.forEach(function(projectElement) {
+            projectElement.addEventListener('click', function() {
+                const projectId = projectElement.getAttribute('data-project');
+                loadProjectDetails(projectId);
+            });
         });
-    });
+    }
 
     function loadProjectDetails(projectId) {
+        const projectList = document.getElementById('projectList');
+        const projectDetails = document.getElementById('projectDetails');
+
         projectList.style.display = 'none';
         projectDetails.style.display = 'block';
         let projectContent = '';
