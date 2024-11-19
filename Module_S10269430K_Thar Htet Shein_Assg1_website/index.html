@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Retro Desktop Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Custom Fonts -->
+    <link href="fonts/PressStart2P.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Startup Screen -->
+    <div id="startup-screen">
+        <h1>Welcome to RetroOS</h1>
+        <p>Loading...</p>
+    </div>
+
+    <div id="desktop" style="display: none;">
+        <!-- Desktop Icons -->
+        <div id="icon-home" class="icon" data-window="homeWindow" title="Home">
+            <img src="icons/home.png" alt="Home">
+            <span>Home</span>
+        </div>
+        <div id="icon-about" class="icon" data-window="aboutWindow" title="About Me">
+            <img src="icons/about.png" alt="About Me">
+            <span>About Me</span>
+        </div>
+        <div id="icon-portfolio" class="icon" data-window="portfolioWindow" title="Portfolio">
+            <img src="icons/portfolio.png" alt="Portfolio">
+            <span>Portfolio</span>
+        </div>
+        <div id="icon-resume" class="icon" data-window="resumeWindow" title="Resume">
+            <img src="icons/resume.png" alt="Resume">
+            <span>Resume</span>
+        </div>
+        <div id="icon-contact" class="icon" data-window="contactWindow" title="Contact">
+            <img src="icons/contact.png" alt="Contact">
+            <span>Contact</span>
+        </div>
+        <div id="icon-terminal" class="icon" data-window="terminalWindow" title="Terminal">
+            <img src="icons/terminal.png" alt="Terminal">
+            <span>Terminal</span>
+        </div>
+        <!-- Browser Icon -->
+        <div id="icon-browser" class="icon" data-window="browserWindow" title="Browser">
+            <img src="icons/browser.png" alt="Browser">
+            <span>Browser</span>
+        </div>
+
+        <!-- Widgets -->
+        <div id="widgets">
+            <!-- System Performance Widget -->
+            <div class="widget system-widget">
+                <div id="system-performance">
+                    <p>System Performance</p>
+                    <p>CPU Usage: <span id="cpu-percentage">0%</span></p>
+                    <div id="cpu-bar-container">
+                        <div id="cpu-bar"></div>
+                    </div>
+                    <p>Memory Usage: <span id="memory-percentage">0%</span></p>
+                    <div id="memory-bar-container">
+                        <div id="memory-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Windows -->
+    <!-- Home Window -->
+    <div id="homeWindow" class="window">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="minimize-button">—</button>
+                <button class="maximize-button">□</button>
+                <button class="close-button">X</button>
+            </div>
+            <span>Home</span>
+        </div>
+        <div class="window-content">
+            <h1>Welcome to My Retro Portfolio</h1>
+            <p>A journey into code and creativity.</p>
+        </div>
+    </div>
+
+    <!-- About Me Window -->
+    <div id="aboutWindow" class="window">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="minimize-button">—</button>
+                <button class="maximize-button">□</button>
+                <button class="close-button">X</button>
+            </div>
+            <span>About Me</span>
+        </div>
+        <div class="window-content">
+            <h1>About Me</h1>
+            <img src="images/your-photo.jpg" alt="Your Photo" class="profile-photo">
+            <p>Hello! I'm <strong>[Your Name]</strong>, a passionate developer with a love for retro tech and innovative solutions.</p>
+            <p>In my free time, I enjoy coding, gaming, and exploring the intersection of technology and art.</p>
+        </div>
+    </div>
+
+    <!-- Portfolio Window -->
+    <div id="portfolioWindow" class="window">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="minimize-button">—</button>
+                <button class="maximize-button">□</button>
+                <button class="close-button">X</button>
+            </div>
+            <span>Portfolio</span>
+        </div>
+        <div class="window-content">
+            <!-- Project List -->
+            <div id="projectList">
+                <h1>My Projects</h1>
+                <div class="projects">
+                    <div class="project" data-project="project1">
+                        <h2>Project One</h2>
+                        <p>A brief description of your first project.</p>
+                    </div>
+                    <div class="project" data-project="project2">
+                        <h2>Project Two</h2>
+                        <p>A brief description of your second project.</p>
+                    </div>
+                    <!-- Add more projects as needed -->
+                </div>
+            </div>
+            <!-- Project Details -->
+            <div id="projectDetails" style="display: none;">
+                <!-- Project details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Resume Window -->
+    <div id="resumeWindow" class="window">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="minimize-button">—</button>
+                <button class="maximize-button">□</button>
+                <button class="close-button">X</button>
+            </div>
+            <span>Resume</span>
+        </div>
+        <div class="window-content">
+            <h1>Resume</h1>
+            <section>
+                <h2>Education</h2>
+                <p>Bachelor of Science in Computer Science, XYZ University, 2023</p>
+            </section>
+            <section>
+                <h2>Technical Skills</h2>
+                <ul>
+                    <li>Programming Languages: Python, JavaScript, C++</li>
+                    <li>Web Development: HTML, CSS, React</li>
+                    <li>Databases: MySQL, MongoDB</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Soft Skills</h2>
+                <ul>
+                    <li>Problem-Solving</li>
+                    <li>Team Collaboration</li>
+                    <li>Critical Thinking</li>
+                </ul>
+            </section>
+            <a href="documents/YourName_Resume.pdf" download class="download-resume">Download Resume</a>
+        </div>
+    </div>
+
+    <!-- Contact Window -->
+    <div id="contactWindow" class="window">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="minimize-button">—</button>
+                <button class="maximize-button">□</button>
+                <button class="close-button">X</button>
+            </div>
+            <span>Contact</span>
+        </div>
+        <div class="window-content">
+            <h1>Contact Me</h1>
+            <form action="#" method="post">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name"><br><br>
+                
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email"><br><br>
+                
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message"></textarea><br><br>
+                
+                <input type="submit" value="Send Message">
+            </form>
+            <section class="contact-info">
+                <h2>Get in Touch</h2>
+                <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+                <p>Phone: (123) 456-7890</p>
+                <p>
+                    <a href="https://www.linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> |
+                    <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Terminal Window -->
+    <div id="terminalWindow" class="window">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="minimize-button">—</button>
+                <button class="maximize-button">□</button>
+                <button class="close-button">X</button>
+            </div>
+            <span>Terminal</span>
+        </div>
+        <div class="window-content">
+            <div id="terminal">
+                <div id="terminal-output"></div>
+                <div id="terminal-input-line">
+                    <span id="terminal-prompt">$</span>
+                    <input type="text" id="terminal-input" autofocus>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Browser Window -->
+    <div id="browserWindow" class="window">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="minimize-button">—</button>
+                <button class="maximize-button">□</button>
+                <button class="close-button">X</button>
+            </div>
+            <span>Browser</span>
+        </div>
+        <div class="window-content">
+            <div id="browser-toolbar">
+                <button id="back-button">←</button>
+                <button id="forward-button">→</button>
+                <button id="refresh-button">⟳</button>
+                <input type="text" id="address-bar" value="https://www.example.com">
+                <button id="go-button">Go</button>
+            </div>
+            <iframe id="browser-iframe" src="https://www.example.com"></iframe>
+        </div>
+    </div>
+
+    <!-- Calendar Window -->
+    <div id="calendarWindow" class="window" style="display: none;">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="close-button">X</button>
+            </div>
+            <span>Calendar</span>
+        </div>
+        <div class="window-content">
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div id="taskbar">
+        <div id="start-button">Start</div>
+        <div id="taskbar-clock">12:00 PM</div>
+    </div>
+
+    <!-- Include script -->
+    <script src="script.js"></script>
+</body>
+</html>
