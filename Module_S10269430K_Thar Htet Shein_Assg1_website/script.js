@@ -37,17 +37,24 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentDirectory = '/';
 
     const commands = {
+        // Your existing commands...
         help: `Available commands:
-- help: Show available commands
-- ls: List directory contents
-- cd: Change directory
-- pwd: Show current directory
-- clear: Clear the terminal
-- echo: Display a line of text
-- mkdir: Create a new directory
-- touch: Create a new file
-- cat: Display file content
-- grep: Search for patterns in files`,
+    - help: Show available commands
+    - ls: List directory contents
+    - cd: Change directory
+    - pwd: Show current directory
+    - clear: Clear the terminal
+    - echo: Display a line of text
+    - mkdir: Create a new directory
+    - touch: Create a new file
+    - cat: Display file content
+    - grep: Search for patterns in files
+    - projects: List available projects
+    - view [project-name]: View project details
+    - sysinfo: Display system information
+    - weather: Show current weather
+    - matrix: Display Matrix effect
+    - banner [text]: Generate ASCII art`,
 
         ls: function() {
             const dir = getDirectory(currentDirectory);
@@ -141,7 +148,102 @@ document.addEventListener('DOMContentLoaded', function() {
                 return `grep: ${fileName}: No such file`;
             }
         },
+
+        projects: function() {
+            return `Available projects:\n${Object.keys(projectData).join('\n')}`;
+        },
+        
+        view: function(args) {
+            if (args.length === 0) return 'Usage: view [project-name]';
+            const projectName = args[0];
+            if (projectData[projectName]) {
+                return `Project: ${projectName}\n${projectData[projectName].description}\nTech Stack: ${projectData[projectName].techStack.join(', ')}`;
+            }
+            return `Project ${projectName} not found`;
+        },
+        
+        sysinfo: function() {
+            return `RetroOS v1.0.0
+    CPU Usage: ${document.getElementById('cpu-percentage').textContent}
+    Memory Usage: ${document.getElementById('memory-percentage').textContent}
+    Screen Resolution: ${window.innerWidth}x${window.innerHeight}
+    Browser: ${navigator.userAgent}`;
+        },
+        
+        weather: function() {
+            const conditions = ['Sunny', 'Cloudy', 'Rainy', 'Stormy'];
+            const temp = Math.floor(Math.random() * 30) + 10;
+            return `Current weather:\nTemperature: ${temp}°C\nConditions: ${conditions[Math.floor(Math.random() * conditions.length)]}`;
+        },
+        
+        matrix: function() {
+            startMatrixEffect();
+            return 'Starting Matrix rain effect...';
+        },
+        
+        banner: function(args) {
+            if (args.length === 0) return 'Usage: banner [text]';
+            return generateASCIIArt(args.join(' '));
+        }
     };
+
+    
+    const projectData = {
+        'project1': {
+            name: 'Project KING',
+            description: 'A sophisticated web application that...',
+            techStack: ['React', 'Node.js', 'MongoDB']
+        },
+        'project2': {
+            name: 'Project Two',
+            description: 'An innovative mobile app that...',
+            techStack: ['Flutter', 'Firebase', 'TensorFlow']
+        }
+    };
+
+    function generateASCIIArt(text) {
+        const characters = {
+            'A': [' /\\ ', '/~~\\', ''],
+            'B': ['|\\ ', '|) ', '|/ '],
+            'C': [' __', '/  ', '\\__'],
+            'D': ['|\\ ', '| \\', '|/ '],
+            'E': ['__', '|-', '|_'],
+            'F': ['__', '|-', '| '],
+            'G': [' __', '/  ', '\\__'],
+            'H': ['| |', '|-|', '| |'],
+            'I': ['|', '|', '|'],
+            // Add more characters as needed
+        };
+        
+        let result = ['', '', ''];
+        for (let char of text.toUpperCase()) {
+            const art = characters[char] || [' ', ' ', ' '];
+            result[0] += art[0] || ' ';
+            result[1] += art[1] || ' ';
+            result[2] += art[2] || ' ';
+        }
+        return result.join('\n');
+    }
+
+    function startMatrixEffect() {
+        const terminalOutput = document.getElementById('terminal-output');
+        const interval = setInterval(() => {
+            terminalOutput.innerHTML += generateMatrixLine() + '\n';
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }, 100);
+        
+        setTimeout(() => {
+            clearInterval(interval);
+            terminalOutput.innerHTML += '\nMatrix effect ended.\n';
+        }, 5000);
+    }
+
+    function generateMatrixLine() {
+        const chars = '01';
+        return Array(40).fill(0).map(() => 
+            chars[Math.floor(Math.random() * chars.length)]
+        ).join('');
+    }
 
     function getDirectory(path) {
         const parts = path.split('/').filter(Boolean);

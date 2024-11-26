@@ -559,3 +559,4 @@ body, .window, .window * {
     height: calc(100% - 40px); /* Adjust according to toolbar height */
     border: none;
 }
+
