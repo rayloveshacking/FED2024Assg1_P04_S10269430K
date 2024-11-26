@@ -306,6 +306,45 @@ document.addEventListener('DOMContentLoaded', function() {
         return `[user@portfolio ${currentDirectory}]$ ${input}`;
     }
 
+    // Initialize CRT effect
+    function initCRTEffect() {
+        const desktop = document.getElementById('desktop');
+        if (!document.querySelector('.crt-lines')) {
+            desktop.innerHTML += `
+                <div class="crt-lines"></div>
+                <div class="crt-flicker"></div>
+            `;
+        }
+    }
+
+    // Enhanced system performance updates
+    function initEnhancedPerformance() {
+        const cpuBar = document.getElementById('cpu-bar');
+        const memoryBar = document.getElementById('memory-bar');
+        
+        // Update performance colors based on usage
+        function updatePerformanceColors() {
+            const cpuUsage = parseInt(cpuBar.style.width);
+            const memoryUsage = parseInt(memoryBar.style.width);
+            
+            cpuBar.style.backgroundColor = cpuUsage > 80 ? '#ff0000' : 
+                                        cpuUsage > 60 ? '#ffff00' : '#00ff00';
+            memoryBar.style.backgroundColor = memoryUsage > 80 ? '#ff0000' : 
+                                            memoryUsage > 60 ? '#ffff00' : '#00ff00';
+        }
+        
+        // Add this to your existing updateSystemPerformance function
+        const originalUpdateSystemPerformance = updateSystemPerformance;
+        updateSystemPerformance = function() {
+            originalUpdateSystemPerformance();
+            updatePerformanceColors();
+        };
+    }
+
+    // Initialize effects
+    initCRTEffect();
+    initEnhancedPerformance();
+
     terminalInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
             const input = terminalInput.value;
