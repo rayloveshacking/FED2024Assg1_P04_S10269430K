@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 3000); // Display startup screen for 3 seconds
 
     // Terminal Functionality
-    const terminalInput = document.getElementById('terminal-input');
-    const terminalOutput = document.getElementById('terminal-output');
+    let terminalInput;
+    let terminalOutput;
     const terminalWindow = document.getElementById('terminalWindow');
 
     const commandHistory = [];
@@ -338,6 +338,16 @@ document.addEventListener('DOMContentLoaded', function() {
         ).join('');
     }
 
+    function updateResumeTimestamp() {
+        const timestampElement = document.getElementById('resume-timestamp');
+        if (timestampElement) { // Add check to prevent errors if element doesn't exist
+            setInterval(() => {
+                const now = new Date();
+                timestampElement.textContent = `TIMESTAMP: ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+    }
+
     function getDirectory(path) {
         const parts = path.split('/').filter(Boolean);
         let dir = fileSystem['/'];
@@ -438,31 +448,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initCRTEffect();
     initEnhancedPerformance();
 
-    terminalInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const input = terminalInput.value;
-            commandHistory.push(input);
-            historyIndex = commandHistory.length;
-            executeCommand(input);
-            terminalInput.value = '';
-        } else if (e.key === 'ArrowUp') {
-            if (historyIndex > 0) {
-                historyIndex--;
-                terminalInput.value = commandHistory[historyIndex];
-            }
-            e.preventDefault();
-        } else if (e.key === 'ArrowDown') {
-            if (historyIndex < commandHistory.length - 1) {
-                historyIndex++;
-                terminalInput.value = commandHistory[historyIndex];
-            } else {
-                historyIndex = commandHistory.length;
-                terminalInput.value = '';
-            }
-            e.preventDefault();
-        }
-    });
-
     terminalWindow.addEventListener('click', function(e) {
         if (e.target !== terminalInput) {
             terminalInput.focus();
@@ -548,6 +533,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (windowId === 'portfolioWindow') {
                     initializeProjectEventListeners();
                 }
+
+                if (windowId === 'resumeWindow') {
+                    updateResumeTimestamp();
+                }
+    
             })
             .catch(error => {
                 contentElement.innerHTML = '<p>Error loading content.</p>';
@@ -562,7 +552,7 @@ document.addEventListener('DOMContentLoaded', function() {
             windowElement.style.display = 'flex';
             openWindows.push(windowId);
             updateSystemPerformance();
-
+    
             // Load content based on windowId if not already loaded
             if (!windowElement.dataset.loaded) {
                 switch(windowId) {
@@ -584,11 +574,53 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         bringToFront(windowElement);
+    
         if (windowId === 'terminalWindow') {
+            terminalInput = document.getElementById('terminal-input');
+            terminalOutput = document.getElementById('terminal-output');
             terminalInput.focus();
             updatePrompt();
+    
+            // Check if the event listener is already added
+            if (!terminalInput.dataset.listenerAdded) {
+                terminalInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.keyCode === 13) {
+                        const input = terminalInput.value;
+                        commandHistory.push(input);
+                        historyIndex = commandHistory.length;
+                        executeCommand(input);
+                        terminalInput.value = '';
+                    } else if (e.key === 'ArrowUp') {
+                        if (historyIndex > 0) {
+                            historyIndex--;
+                            terminalInput.value = commandHistory[historyIndex];
+                        }
+                        e.preventDefault();
+                    } else if (e.key === 'ArrowDown') {
+                        if (historyIndex < commandHistory.length - 1) {
+                            historyIndex++;
+                            terminalInput.value = commandHistory[historyIndex];
+                        } else {
+                            historyIndex = commandHistory.length;
+                            terminalInput.value = '';
+                        }
+                        e.preventDefault();
+                    }
+                });
+                // Mark that the event listener has been added
+                terminalInput.dataset.listenerAdded = 'true';
+            }
+    
+            // Add click-to-focus functionality
+            terminalWindow.addEventListener('click', function(e) {
+                if (e.target !== terminalInput) {
+                    terminalInput.focus();
+                }
+            });
         }
     }
+    
+    
 
     // Close window when close button is clicked
     const closeButtons = document.querySelectorAll('.close-button');
