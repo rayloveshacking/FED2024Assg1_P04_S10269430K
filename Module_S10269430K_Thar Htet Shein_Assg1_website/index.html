@@ -47,23 +47,141 @@
         </div>
 
         <!-- Widgets -->
-        <div id="widgets">
-            <!-- System Performance Widget -->
-            <div class="widget system-widget">
-                <div id="system-performance">
-                    <p>System Performance</p>
-                    <p>CPU Usage: <span id="cpu-percentage">0%</span></p>
-                    <div id="cpu-bar-container">
-                        <div id="cpu-bar"></div>
+        <!-- Widgets -->
+    <!-- Widgets -->
+    <!-- Widgets -->
+    <div id="widgets">
+        <div class="widgets-row">
+            <div class="widgets-column">
+                <!-- Neural Network Status Widget -->
+                <div class="widget neural-widget">
+                    <div id="neural-status">
+                        <div class="widget-header">
+                            <span class="status-pulse"></span>
+                            Neural Network Status
+                        </div>
+                        
+                        <div class="neural-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">NEURAL SYNC</span>
+                                <div class="neural-bar-container">
+                                    <div class="neural-bar" id="sync-bar">
+                                        <span class="percentage">98%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="metric-item">
+                                <span class="metric-label">QUANTUM FLUX</span>
+                                <div class="neural-bar-container">
+                                    <div class="neural-bar" id="quantum-bar">
+                                        <span class="percentage">85%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="active-processes">
+                            <div class="process">
+                                <span class="process-name">[CORE_PROCESS]</span>
+                                <span class="process-status active">ACTIVE</span>
+                            </div>
+                            <div class="process">
+                                <span class="process-name">[NEURAL_SCAN]</span>
+                                <span class="process-status standby">STANDBY</span>
+                            </div>
+                        </div>
+
+                        <div class="network-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">UPTIME:</span>
+                                <span class="stat-value" id="uptime-counter">72:14:33</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">THREAT LEVEL:</span>
+                                <span class="stat-value secure">MINIMAL</span>
+                            </div>
+                        </div>
                     </div>
-                    <p>Memory Usage: <span id="memory-percentage">0%</span></p>
-                    <div id="memory-bar-container">
-                        <div id="memory-bar"></div>
+                </div>
+
+                <!-- System Performance Widget -->
+                <div class="widget system-widget">
+                    <div id="system-performance">
+                        <p>System Performance</p>
+                        <p>CPU Usage: <span id="cpu-percentage">0%</span></p>
+                        <div id="cpu-bar-container">
+                            <div id="cpu-bar"></div>
+                        </div>
+                        <p>Memory Usage: <span id="memory-percentage">0%</span></p>
+                        <div id="memory-bar-container">
+                            <div id="memory-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Threat Map Widget -->
+            <div class="widget threat-map-widget">
+                <div class="widget-header">
+                    <span class="status-pulse alert"></span>
+                    Global Threat Matrix
+                </div>
+                
+                <div class="threat-map-container">
+                    <div class="threat-map">
+                        <svg viewBox="0 0 200 100" class="world-map">
+                            <!-- Simplified world map outline -->
+                            <path class="map-path" d="M10,40 L30,40 L35,35 L40,38 L50,35 L60,40 L70,38 L80,42 L90,38 L100,40 L110,35 L120,38 L130,35 L140,40 L150,38 L160,42 L170,38 L180,40 L190,35" />
+                            
+                            <!-- Attack points that will be dynamically added -->
+                            <circle class="attack-point source" cx="45" cy="45" r="1"/>
+                            <circle class="attack-point target" cx="145" cy="35" r="1"/>
+                            <line class="attack-line" x1="45" y1="45" x2="145" y2="35"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="threat-stats">
+                    <div class="stat-group">
+                        <div class="threat-stat">
+                            <span class="stat-label">ACTIVE THREATS</span>
+                            <span class="stat-value" id="active-threats">247</span>
+                        </div>
+                        <div class="threat-stat">
+                            <span class="stat-label">BLOCKED ATTACKS</span>
+                            <span class="stat-value" id="blocked-attacks">1.5M</span>
+                        </div>
+                    </div>
+                    <div class="threat-type-list">
+                        <div class="threat-type">
+                            <span class="type-indicator ddos"></span>
+                            <span class="type-label">DDoS</span>
+                            <span class="type-count">125</span>
+                        </div>
+                        <div class="threat-type">
+                            <span class="type-indicator malware"></span>
+                            <span class="type-label">MALWARE</span>
+                            <span class="type-count">89</span>
+                        </div>
+                        <div class="threat-type">
+                            <span class="type-indicator ransomware"></span>
+                            <span class="type-label">RANSOMWARE</span>
+                            <span class="type-count">33</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-alerts">
+                    <div class="alert-header">LIVE THREAT FEED</div>
+                    <div class="alert-list" id="threat-feed">
+                        <!-- Alerts will be added dynamically -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 
     <!-- Windows -->
     <!-- Home Window -->
@@ -78,90 +196,96 @@
         </div>
         <div class="window-content retro-welcome">
             <div class="welcome-header">
-                <h1 class="glitch-text">Welcome to RetroOS v1.0</h1>
-                <p class="typing-effect">Initializing creative development environment...</p>
+                <h1 class="glitch-text">Welcome to CyberScape OS</h1>
+                <p class="typing-effect">[SYSTEM BOOT SUCCESSFUL] Quantum Core v2.0 Initialized...</p>
             </div>
         
             <div class="welcome-main">
-                <div class="quick-stats">
-                    <div class="stat-box">
-                        <h3>Skills Loaded:</h3>
+                <div class="development-matrix">
+                    <div class="power-stats">
+                        <h3>System Capabilities</h3>
                         <ul class="loading-list">
-                            <li>JavaScript [████████░░] 80%</li>
-                            <li>C# .Net [███████░░░] 70%</li>
-                            <li>React.js [████████░░] 80%</li>
-                            <li>Python [██████████] 100%</li>
+                            <li>Full Stack Development [█████████░] 90%</li>
+                            <li>Security Architecture [████████░░] 80%</li>
+                            <li>AI/ML Integration [████████░░] 80%</li>
+                            <li>Cloud Solutions [███████░░░] 70%</li>
                         </ul>
                     </div>
         
-                    <div class="stat-box">
-                        <h3>Projects Deployed:</h3>
+                    <div class="achievement-matrix">
+                        <h3>Developer Matrix</h3>
                         <ul class="project-counter">
-                            <li>Web Applications: 12</li>
-                            <li>Mobile Apps: 5</li>
-                            <li>AI Models: 1</li>
-                            <li>Open Source: 8</li>
+                            <li>Battle-tested Projects: 26+</li>
+                            <li>Code Commits: 3000+</li>
+                            <li>Problems Solved: 500+</li>
+                            <li>Cybersecurity Awards: 3</li>
                         </ul>
                     </div>
                 </div>
         
-                <div class="welcome-message">
-                    <div class="intro-container">
+                <div class="cyber-welcome">
+                    <div class="matrix-container">
                         <div class="intro-text-main">
-                            <span class="terminal-prompt">[SYSTEM]> </span>Welcome to RetroOS v1.0
+                            <span class="terminal-prompt">[NEURAL-NET]> </span>Welcome to the Digital Frontier
                         </div>
                         
                         <div class="intro-description">
-                            <p class="typing-text">Greetings, User! I'm Thar Htet Shein (the sudo), and you've just booted into my interactive portfolio experience. This retro-inspired interface combines the nostalgia of classic computing with modern web development capabilities.</p>
+                            <p class="typing-text">Greetings, NetRunner! You've accessed the secure terminal of Thar Htet Shein, 
+                            your guide through the digital realm. This cyberpunk-inspired interface merges 
+                            retro aesthetics with cutting-edge web development capabilities.</p>
                         </div>
                         
-                        <div class="system-info">
+                        <div class="neural-status">
                             <div class="info-line">
-                                <span class="info-label">STATUS</span>
-                                <span class="info-value">System Operational</span>
+                                <span class="info-label">SYSTEM</span>
+                                <span class="info-value glow-text">Quantum-Enhanced</span>
                             </div>
                             <div class="info-line">
-                                <span class="info-label">ROLE</span>
-                                <span class="info-value">Full Stack Developer</span>
+                                <span class="info-label">SPECIALTY</span>
+                                <span class="info-value">Full Stack Security Expert</span>
                             </div>
                             <div class="info-line">
-                                <span class="info-label">LOCATION</span>
-                                <span class="info-value">Available Worldwide</span>
+                                <span class="info-label">UPTIME</span>
+                                <span class="info-value pulse-text">Always Connected</span>
                             </div>
                         </div>
                         
-                        <div class="quick-start">
-                            <h3>&gt; Quick Start Guide:</h3>
+                        <div class="command-interface">
+                            <h3>&gt; Available Neural Commands:</h3>
                             <ul class="command-list">
-                                <li><span class="command">EXPLORE</span> Navigate through windows using desktop icons</li>
-                                <li><span class="command">INTERACT</span> Use the terminal for advanced commands</li>
-                                <li><span class="command">DISCOVER</span> Check out my projects and experiences</li>
-                                <li><span class="command">CONNECT</span> Reach out through the contact window</li>
+                                <li><span class="command">DECRYPT</span> Access project archives</li>
+                                <li><span class="command">INTERFACE</span> Neural-link with development tools</li>
+                                <li><span class="command">SCAN</span> Analyze security implementations</li>
+                                <li><span class="command">CONNECT</span> Establish secure communication</li>
                             </ul>
                         </div>
                         
-                        <div class="boot-message">
-                            <span class="blink">&gt;</span> System ready for exploration. Double-click any icon to begin...
+                        <div class="matrix-status">
+                            <span class="blink">&gt;</span> Neural handshake established. Proceed with exploration...
                         </div>
                     </div>
                     
-                    <div class="quick-navigation">
-                        <h3>Quick Navigation:</h3>
-                        <p>→ Double-click on desktop icons to explore</p>
-                        <p>→ Use the terminal for advanced navigation</p>
-                        <p>→ Check system resources in the top-right widget</p>
+                    <div class="quick-access">
+                        <h3>Neural Access Points:</h3>
+                        <p>→ Interface with desktop nodes for direct access</p>
+                        <p>→ Execute terminal commands for deep system interaction</p>
+                        <p>→ Monitor quantum resources via the status matrix</p>
                     </div>
         
-                    <div class="featured-work">
-                        <h3>Featured Project: Project C5ThreatDetector</h3>
-                        <p>A revolutionary threat detector mainly used for links and qr codes to scan for every scams around the corner</p>
+                    <div class="featured-projects">
+                        <h3>Featured Neural Implementation: C5ThreatDetector</h3>
+                        <p>A quantum-enhanced security system utilizing advanced algorithms to detect and 
+                        neutralize digital threats, specializing in deep-scan analysis of potentially 
+                        malicious links and QR matrices.</p>
                         <div class="tech-stack">
-                            <span class="tech-badge">Dart</span>
-                            <span class="tech-badge">C++</span>
+                            <span class="tech-badge">Quantum Core</span>
+                            <span class="tech-badge">Neural Engine</span>
+                            <span class="tech-badge">Cyber Shield</span>
                         </div>
                     </div>
                 </div>
             </div>
+        
         
             <div class="welcome-footer">
                 <p class="terminal-prompt">Type 'help' in the terminal for available commands</p>
@@ -173,6 +297,7 @@
             </div>
         </div>
     </div>
+     </div>  
 
     <!-- About Me Window -->
     <div id="aboutWindow" class="window">

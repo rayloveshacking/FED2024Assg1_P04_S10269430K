@@ -225,6 +225,99 @@ document.addEventListener('DOMContentLoaded', function() {
         return result.join('\n');
     }
 
+    // Add this to your existing window.onload or DOMContentLoaded event handler
+    function updateUptime() {
+        const uptimeElement = document.getElementById('uptime-counter');
+        let hours = 72;
+        let minutes = 14;
+        let seconds = 33;
+
+        setInterval(() => {
+            seconds++;
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes >= 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+            uptimeElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    updateUptime();
+
+    // Cyber Threat Map functionality
+    function initThreatMap() {
+        const threatFeed = document.getElementById('threat-feed');
+        const attackLocations = [
+            { name: 'New York', x: 45, y: 45 },
+            { name: 'London', x: 90, y: 35 },
+            { name: 'Tokyo', x: 145, y: 35 },
+            { name: 'Sydney', x: 165, y: 65 },
+            { name: 'Moscow', x: 115, y: 30 },
+            { name: 'Beijing', x: 135, y: 40 }
+        ];
+
+        // Update threat counters
+        function updateThreats() {
+            const activeThreatElement = document.getElementById('active-threats');
+            const blockedAttacksElement = document.getElementById('blocked-attacks');
+            
+            let activeThreats = parseInt(activeThreatElement.textContent);
+            let blockedAttacks = parseFloat(blockedAttacksElement.textContent);
+            
+            activeThreats += Math.floor(Math.random() * 5) - 2;
+            blockedAttacks += 0.1;
+            
+            activeThreatElement.textContent = Math.max(0, activeThreats);
+            blockedAttacksElement.textContent = blockedAttacks.toFixed(1) + 'M';
+        }
+
+        // Generate random attacks
+        function generateAttack() {
+            const source = attackLocations[Math.floor(Math.random() * attackLocations.length)];
+            const target = attackLocations[Math.floor(Math.random() * attackLocations.length)];
+            
+            if (source !== target) {
+                const alert = document.createElement('div');
+                alert.className = 'threat-alert';
+                alert.innerHTML = `[${new Date().toLocaleTimeString()}] Attack detected: ${source.name} -> ${target.name}`;
+                
+                threatFeed.insertBefore(alert, threatFeed.firstChild);
+                if (threatFeed.children.length > 4) {
+                    threatFeed.removeChild(threatFeed.lastChild);
+                }
+                
+                // Animate attack on map
+                const svg = document.querySelector('.world-map');
+                const attack = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', source.x);
+                line.setAttribute('y1', source.y);
+                line.setAttribute('x2', target.x);
+                line.setAttribute('y2', target.y);
+                line.className.baseVal = 'attack-line';
+                
+                attack.appendChild(line);
+                svg.appendChild(attack);
+                
+                setTimeout(() => svg.removeChild(attack), 2000);
+            }
+        }
+
+        // Initialize update intervals
+        setInterval(updateThreats, 2000);
+        setInterval(generateAttack, 3000);
+    }
+
+// Add this to your existing window.onload or DOMContentLoaded event handler
+document.addEventListener('DOMContentLoaded', function() {
+    initThreatMap();
+});
+
     function startMatrixEffect() {
         const terminalOutput = document.getElementById('terminal-output');
         const interval = setInterval(() => {

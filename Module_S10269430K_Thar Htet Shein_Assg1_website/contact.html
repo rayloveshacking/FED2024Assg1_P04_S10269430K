@@ -1,25 +1,104 @@
-<!-- contact.html -->
-<div class="window-content">
-    <h1>Contact Me</h1>
-    <form action="#" method="post">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br><br>
-        
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br><br>
-        
-        <label for="message">Message:</label><br>
-        <textarea id="message" name="message"></textarea><br><br>
-        
-        <input type="submit" value="Send Message">
-    </form>
-    <section class="contact-info">
-        <h2>Get in Touch</h2>
-        <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-        <p>Phone: (123) 456-7890</p>
-        <p>
-            <a href="https://www.linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> |
-            <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-        </p>
-    </section>
+<div class="window-content contact-section">
+    <div class="section-header">
+        <h1 class="retro-title">&lt;Contact_Console&gt;</h1>
+        <div class="header-status">
+            <span class="status-dot active"></span>
+            Status: Online & Available
+        </div>
+    </div>
+
+    <div class="contact-grid">
+        <div class="contact-form-container">
+            <div class="form-header">
+                <h2>&gt; Initialize_Communication</h2>
+                <p class="form-meta">Response Time: < 24 hours</p>
+            </div>
+
+            <form class="retro-form">
+                <div class="form-group">
+                    <label>&gt; Your_Name:</label>
+                    <input type="text" class="retro-input" placeholder="_" required>
+                </div>
+
+                <div class="form-group">
+                    <label>&gt; Email_Address:</label>
+                    <input type="email" class="retro-input" placeholder="_" required>
+                </div>
+
+                <div class="form-group">
+                    <label>&gt; Subject:</label>
+                    <select class="retro-select">
+                        <option value="project">Project Inquiry</option>
+                        <option value="job">Job Opportunity</option>
+                        <option value="collaboration">Collaboration</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>&gt; Message:</label>
+                    <textarea class="retro-textarea" rows="5" placeholder="_" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">
+                    <span class="button-text">SEND_MESSAGE</span>
+                    <span class="button-icon">→</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="contact-info-container">
+            <div class="info-section">
+                <h2>&gt; Direct_Channels</h2>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <span class="method-icon">@</span>
+                        <span class="method-label">Email:</span>
+                        <a href="mailto:your.email@example.com">your.email@example.com</a>
+                    </div>
+                    <div class="contact-method">
+                        <span class="method-icon">☎</span>
+                        <span class="method-label">Phone:</span>
+                        <span>+1 (123) 456-7890</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-section">
+                <h2>&gt; Social_Networks</h2>
+                <div class="social-grid">
+                    <a href="#" class="social-item">
+                        <span class="platform-icon">GH</span>
+                        <span class="platform-name">GitHub</span>
+                    </a>
+                    <a href="#" class="social-item">
+                        <span class="platform-icon">LI</span>
+                        <span class="platform-name">LinkedIn</span>
+                    </a>
+                    <a href="#" class="social-item">
+                        <span class="platform-icon">TW</span>
+                        <span class="platform-name">Twitter</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="availability-section">
+                <h2>&gt; Availability_Status</h2>
+                <div class="availability-info">
+                    <div class="availability-item">
+                        <span class="status-label">Current Time Zone:</span>
+                        <span class="status-value">UTC-5 (EST)</span>
+                    </div>
+                    <div class="availability-item">
+                        <span class="status-label">Response Time:</span>
+                        <span class="status-value">< 24 hours</span>
+                    </div>
+                    <div class="availability-item">
+                        <span class="status-label">Available for:</span>
+                        <span class="status-value">Freelance Projects</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
