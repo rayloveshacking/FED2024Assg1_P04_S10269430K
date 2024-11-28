@@ -108,6 +108,7 @@ The design follows a cyberpunk aesthetic with:
 - Limited browser compatibility for some CSS effects
 - Performance considerations on older devices
 - Minor visual glitches in certain browsers
+- The icons and windows are not draggable as in desktop mode.
 
 ## Credits
 
