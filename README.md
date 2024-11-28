@@ -1,125 +1,134 @@
-# CyberScape OS - Security-Focused Portfolio
+# CyberScape OS - A Cyberpunk Portfolio Interface
 
 ## Overview
-CyberScape OS is a cyberpunk-themed portfolio website that showcases my expertise in security research, penetration testing, and full-stack development. The website features a unique retro-computing interface combined with modern cybersecurity elements, creating an engaging experience that reflects both my technical skills and creative approach to security.
+CyberScape OS is a cyberpunk-themed portfolio website that provides an immersive retro-computing experience. It's designed as an interactive operating system interface, combining nostalgic computing aesthetics with modern web technologies to create a unique and engaging way to showcase my skills and projects.
 
 ## Design Process
 
 ### Target Audience
-This website caters to:
-- Potential employers in cybersecurity and software development
-- Fellow security researchers and developers
-- Clients seeking security expertise
-- Anyone interested in cybersecurity and web development
+The website caters to:
+- Potential employers and clients in tech industry
+- Fellow developers interested in unique UI/UX implementations
+- Cybersecurity enthusiasts
+- Anyone interested in creative web development
 
 ### User Stories
-- As an employer, I want to quickly assess the developer's security expertise and technical skills
-- As a client, I want to review past security projects and implementations
-- As a fellow developer, I want to explore the technical implementations and creative approach
-- As a recruiter, I want to access a comprehensive overview of skills and experience
+- As a potential employer, I want to quickly assess the developer's skills and projects
+- As a client, I want to understand the developer's approach to problem-solving
+- As a fellow developer, I want to see creative implementations of web technologies
+- As a visitor, I want an engaging and unique way to learn about the developer
 
-### Design Approach
-The website adopts a cyberpunk-themed OS interface to:
-- Create an immersive experience that demonstrates both technical and creative abilities
-- Present technical information in an engaging and memorable way
-- Showcase security concepts through interactive elements
-- Provide easy navigation through familiar desktop metaphors
+### Design Philosophy
+The design follows a cyberpunk aesthetic with:
+- Retro-computing interface elements
+- Green-on-black color scheme
+- CRT screen effects
+- Terminal-style interactions
+- Dynamic visual elements
 
 ## Features
 
-### Existing Features
-1. **Interactive Desktop Interface**
-   - OS-like environment with draggable windows
-   - Start menu and taskbar functionality
-   - Real-time clock and system monitoring
+### Core Interface
+1. **Desktop Environment**
+   - Draggable windows and icons
+   - Start menu functionality
+   - Interactive taskbar with clock
+   - Dynamic window management
 
-2. **Real-time System Monitoring**
-   - CPU and Memory usage visualization
-   - Neural Network status monitoring
-   - Global threat detection matrix
+2. **Themed Widgets**
+   - Simulated system performance metrics
+   - Animated neural network status display
+   - Interactive threat visualization effects
+   - Cyberpunk-styled status indicators
 
-3. **Security-Focused Sections**
-   - Project showcase with security clearance levels
-   - Detailed security implementation descriptions
-   - Live threat feed visualization
+3. **Interactive Elements**
+   - Functional terminal with custom commands
+   - Window maximize/minimize controls
+   - Responsive drag-and-drop interface
+   - Dynamic content loading
 
-4. **Interactive Terminal**
-   - Command-line interface for navigation
-   - System information access
-   - Custom command set
+### Window System
+1. **About Section**
+   - Professional background
+   - Skills and expertise
+   - Personal interests
+   - Contact information
 
-### Features Left to Implement
-- Interactive security demonstration sandbox
-- Live vulnerability scanning simulation
-- Real-time project statistics integration
+2. **Portfolio Display**
+   - Project showcases
+   - Technical specifications
+   - Live demonstrations
+   - Project documentation
+
+3. **Resume Window**
+   - Professional experience
+   - Technical skills
+   - Educational background
+   - Achievements
+
+### Feature Roadmap
+- Enhanced terminal functionality
+- Additional visual effects
+- Expanded widget capabilities
+- Interactive project demonstrations
 
 ## Technologies Used
 
 ### Core Technologies
-- HTML5: Structure and content
-- CSS3: Styling and animations
-- JavaScript: Interactive functionality
-- Font: Press Start 2P for retro aesthetic
+- HTML5 for structure
+- CSS3 for styling and animations
+- Vanilla JavaScript for functionality
+- SVG for visual elements
 
-### Libraries and Frameworks
-- No external JavaScript frameworks used (pure JavaScript implementation)
-- Custom CSS animations for cyberpunk effects
-- SVG for threat map visualization
+### Notable Implementations
+- Custom window management system
+- Terminal emulation
+- Dynamic content loading
+- Responsive design principles
 
 ## Testing
 
 ### Functionality Testing
-1. Window System
-   - Verified window dragging functionality
-   - Tested minimize/maximize/close operations
-   - Confirmed proper z-index handling for window focus
+1. **Window System**
+   - Window dragging works across different screen sizes
+   - Maximize/minimize functions properly
+   - Proper z-index handling for multiple windows
 
-2. Terminal Interface
-   - Tested all implemented commands
-   - Verified command history functionality
-   - Confirmed proper output display
+2. **Mobile Compatibility**
+   - Touch events work correctly
+   - Responsive layout adjusts appropriately
+   - Interface remains usable on small screens
 
-3. Widgets
-   - Verified real-time updates of system metrics
-   - Tested threat map animations
-   - Confirmed neural network status updates
+3. **Browser Compatibility**
+   - Tested on Chrome, Firefox, Safari
+   - Consistent behavior across platforms
+   - Fallbacks for unsupported features
 
-### Responsiveness
-- Tested on various screen sizes (desktop, tablet, mobile)
-- Verified widget positioning and scaling
-- Confirmed proper text wrapping and layout adjustments
-
-### Browser Compatibility
-Tested on:
-- Chrome (Version 120)
-- Firefox (Version 121)
-- Safari (Version 17)
-- Edge (Version 120)
+### Known Issues
+- Limited browser compatibility for some CSS effects
+- Performance considerations on older devices
+- Minor visual glitches in certain browsers
 
 ## Credits
 
-### Code Attribution
-- SVG World Map Path: Modified from [Simple World Map SVG](example-source.com)
-- Terminal Implementation: Inspired by [Retro Terminal Tutorial](example-source.com)
-- CSS Glitch Effect: Adapted from [CSS Tricks](example-source.com)
-
 ### Design Inspiration
-- Visual style inspired by cyberpunk aesthetics
-- Terminal interface inspired by classic Unix systems
-- Threat map concept inspired by security operation centers
+- Classic operating system interfaces
+- Cyberpunk aesthetic and themes
+- Modern web portfolios
+- Retro computing systems
 
-### Media
-- Icons: Custom designed for retro OS aesthetic
-- Background textures: Created using CSS patterns
-- System sounds: Generated using Web Audio API
+### Code References
+- CSS animations inspired by various CodePen examples
+- Terminal implementation referenced from various open-source projects
+- Window management system based on standard web practices
 
-## Acknowledgments
-- Thanks to Interactive Development faculty for project guidance
-- Inspired by classic operating system interfaces
-- Security monitoring concepts inspired by real SOC dashboards
+## Setup and Installation
+1. Clone the repository
+2. No build process required - pure HTML/CSS/JS
+3. Open index.html in a modern web browser
+4. Best viewed in Chrome or Firefox
 
 ## Contact
-For any inquiries or collaboration opportunities:
 - Email: winchestervicious@gmail.com
 - GitHub: [rayloveshacking](https://github.com/rayloveshacking)
 - LinkedIn: [Thar Htet Shein](https://www.linkedin.com/in/thar-htet-s-0368662a4/)
