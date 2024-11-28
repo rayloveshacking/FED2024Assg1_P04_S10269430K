@@ -201,6 +201,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+
+
     function generateASCIIArt(text) {
         const characters = {
             'A': [' /\\ ', '/~~\\', ''],
@@ -937,4 +939,224 @@ document.addEventListener('DOMContentLoaded', function() {
     forwardButton.addEventListener('click', function() {
         browserIframe.contentWindow.history.forward();
     });
+});
+// Update icon event handling for both mouse and touch
+function initializeIcons() {
+    const icons = document.querySelectorAll('.icon');
+    let lastTap = 0; // For double tap detection
+    
+    icons.forEach(function(icon) {
+        // Handle mouse events
+        icon.addEventListener('mousedown', handleIconStart);
+        icon.addEventListener('dblclick', handleIconOpen);
+        
+        // Handle touch events
+        icon.addEventListener('touchstart', handleTouchStart);
+        icon.addEventListener('touchend', handleTouchEnd);
+    });
+
+    function handleIconStart(e) {
+        if (e.button !== 0) return;
+        selectIcon(this);
+        initiateDrag(e, this);
+    }
+
+    function handleTouchStart(e) {
+        e.preventDefault();
+        selectIcon(this);
+        
+        const touch = e.touches[0];
+        const now = Date.now();
+        
+        if (now - lastTap < 300) { // Double tap threshold
+            openWindow(this.getAttribute('data-window'));
+        }
+        
+        lastTap = now;
+        initiateDrag(touch, this);
+    }
+
+    function handleTouchEnd(e) {
+        e.preventDefault();
+        document.removeEventListener('touchmove', onTouchMove);
+        this.onmouseup = null;
+    }
+
+    function selectIcon(icon) {
+        if (selectedIcon) {
+            selectedIcon.classList.remove('selected');
+        }
+        selectedIcon = icon;
+        icon.classList.add('selected');
+    }
+
+    function initiateDrag(event, icon) {
+        let shiftX = event.clientX - icon.getBoundingClientRect().left;
+        let shiftY = event.clientY - icon.getBoundingClientRect().top;
+
+        function moveAt(pageX, pageY) {
+            const maxX = window.innerWidth - icon.offsetWidth;
+            const maxY = window.innerHeight - icon.offsetHeight;
+            
+            // Constrain movement within viewport
+            const newX = Math.min(Math.max(0, pageX - shiftX), maxX);
+            const newY = Math.min(Math.max(0, pageY - shiftY), maxY);
+            
+            icon.style.left = newX + 'px';
+            icon.style.top = newY + 'px';
+        }
+
+        function onMouseMove(e) {
+            moveAt(e.pageX, e.pageY);
+        }
+
+        function onTouchMove(e) {
+            const touch = e.touches[0];
+            moveAt(touch.pageX, touch.pageY);
+        }
+
+        // Add move event listeners based on event type
+        if (event.type === 'mousedown') {
+            document.addEventListener('mousemove', onMouseMove);
+            icon.onmouseup = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                icon.onmouseup = null;
+            };
+        } else {
+            document.addEventListener('touchmove', onTouchMove);
+        }
+
+        icon.ondragstart = () => false;
+    }
+}
+
+// Update window handling for touch devices
+function initializeWindows() {
+    const windowHeaders = document.querySelectorAll('.window-header');
+    
+    windowHeaders.forEach(header => {
+        const windowElement = header.parentElement;
+        
+        // Add touch event listeners
+        header.addEventListener('touchstart', handleTouchStart);
+        header.addEventListener('touchend', handleTouchEnd);
+        header.addEventListener('touchmove', handleTouchMove);
+        
+        let initialX, initialY;
+        let currentX, currentY;
+        
+        function handleTouchStart(e) {
+            if (e.target.classList.contains('window-controls') || 
+                e.target.tagName === 'BUTTON') {
+                return;
+            }
+            
+            const touch = e.touches[0];
+            initialX = touch.clientX - windowElement.offsetLeft;
+            initialY = touch.clientY - windowElement.offsetTop;
+            
+            bringToFront(windowElement);
+        }
+        
+        function handleTouchMove(e) {
+            if (!initialX || !initialY) return;
+            
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            currentX = touch.clientX - initialX;
+            currentY = touch.clientY - initialY;
+            
+            // Constrain window movement within viewport
+            const maxX = window.innerWidth - windowElement.offsetWidth;
+            const maxY = window.innerHeight - windowElement.offsetHeight;
+            
+            currentX = Math.min(Math.max(0, currentX), maxX);
+            currentY = Math.min(Math.max(0, currentY), maxY);
+            
+            windowElement.style.left = currentX + 'px';
+            windowElement.style.top = currentY + 'px';
+        }
+        
+        function handleTouchEnd() {
+            initialX = null;
+            initialY = null;
+        }
+    });
+}
+
+// Initialize both icon and window touch handling
+document.addEventListener('DOMContentLoaded', function() {
+    initializeIcons();
+    initializeWindows();
+});
+
+function createAttackAnimation() {
+    const continents = document.querySelectorAll('.continent');
+    const attackPoints = document.getElementById('attack-points');
+
+    function createAttack() {
+        // Clear previous attacks
+        attackPoints.innerHTML = '';
+
+        // Select random continents for source and target
+        const source = continents[Math.floor(Math.random() * continents.length)];
+        const target = continents[Math.floor(Math.random() * continents.length)];
+
+        if (source === target) return;
+
+        // Create attack points
+        const sourcePoint = document.createElement('div');
+        const targetPoint = document.createElement('div');
+        sourcePoint.className = 'attack-point source';
+        targetPoint.className = 'attack-point target';
+
+        // Position points
+        const sourceRect = source.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const containerRect = attackPoints.getBoundingClientRect();
+
+        const sourceX = (sourceRect.left + sourceRect.width/2 - containerRect.left);
+        const sourceY = (sourceRect.top + sourceRect.height/2 - containerRect.top);
+        const targetX = (targetRect.left + targetRect.width/2 - containerRect.left);
+        const targetY = (targetRect.top + targetRect.height/2 - containerRect.top);
+
+        sourcePoint.style.left = sourceX + 'px';
+        sourcePoint.style.top = sourceY + 'px';
+        targetPoint.style.left = targetX + 'px';
+        targetPoint.style.top = targetY + 'px';
+
+        // Create attack line
+        const line = document.createElement('div');
+        line.className = 'attack-line';
+
+        // Calculate line properties
+        const length = Math.sqrt(Math.pow(targetX - sourceX, 2) + Math.pow(targetY - sourceY, 2));
+        const angle = Math.atan2(targetY - sourceY, targetX - sourceX) * 180 / Math.PI;
+
+        line.style.width = length + 'px';
+        line.style.left = sourceX + 'px';
+        line.style.top = sourceY + 'px';
+        line.style.transform = `rotate(${angle}deg)`;
+
+        // Add elements to container
+        attackPoints.appendChild(sourcePoint);
+        attackPoints.appendChild(targetPoint);
+        attackPoints.appendChild(line);
+
+        // Remove after animation
+        setTimeout(() => {
+            sourcePoint.remove();
+            targetPoint.remove();
+            line.remove();
+        }, 2000);
+    }
+
+    // Create new attack every 3 seconds
+    setInterval(createAttack, 3000);
+}
+
+// Initialize attack animations when document loads
+document.addEventListener('DOMContentLoaded', function() {
+    createAttackAnimation();
 });

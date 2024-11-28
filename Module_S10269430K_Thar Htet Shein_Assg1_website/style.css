@@ -40,7 +40,7 @@ body, .window, .window * {
     overflow: hidden;
 }
 
-/* Icons */
+/* Icons - Updated for mobile */
 .icon {
     width: 80px;
     text-align: center;
@@ -48,6 +48,8 @@ body, .window, .window * {
     color: white;
     transition: transform 0.2s;
     user-select: none;
+    cursor: pointer; /* Add cursor pointer for better mobile interaction */
+    touch-action: manipulation; /* Improve touch handling */
 }
 
 /* Set initial positions for each icon */
@@ -113,9 +115,12 @@ body, .window, .window * {
 
 /* Widgets */
 #widgets {
-    position: absolute;
+    position: fixed;
     top: 20px;
-    right: 20px;     
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    overflow: visible;
 }
 
 .widgets-row {
@@ -126,25 +131,20 @@ body, .window, .window * {
 
 .widgets-column {
     display: flex;
-    flex-direction: column;
     gap: 10px;
 }
 
+/* Individual Widget Styles */
 .widget {
-    width: 200px;
-    flex-shrink: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #0f0;
+    padding: 15px;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
 }
 
-.widget {
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid #0f0;
-    padding: 10px;
-    margin-bottom: 10px;
-    color: #0f0;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 14px;
-    width: 200px;
-}
+
 
 .clock-widget {
     width: 100px;
@@ -153,7 +153,7 @@ body, .window, .window * {
 
 /* System Performance Widget */
 .system-widget {
-    height:auto;
+    height:150px;
     width: 200px;
     flex-shrink: 0;
 }
@@ -177,7 +177,7 @@ body, .window, .window * {
     width: 0%; /* Start with 0%, will be updated dynamically */
 }
 
-/* Windows */
+/* Window Positioning */
 .window {
     width: 600px;
     height: 400px;
@@ -185,12 +185,77 @@ body, .window, .window * {
     backdrop-filter: blur(5px);
     border: 2px solid #0f0;
     position: absolute;
-    top: 100px;
-    left: 100px;
+    /* Update default position to be more centered */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: none;
     flex-direction: column;
     overflow: hidden;
     animation: fadeIn 0.5s ease;
+}
+
+/* Define different starting positions for each window */
+#homeWindow {
+    top: 20%;
+    left: 20%;
+    transform: none;
+}
+
+#aboutWindow {
+    top: 25%;
+    left: 25%;
+    transform: none;
+}
+
+#portfolioWindow {
+    top: 30%;
+    left: 30%;
+    transform: none;
+}
+
+#resumeWindow {
+    top: 30%;
+    left: 30%;
+    transform: none;
+}
+
+#contactWindow {
+    top: 30%;
+    left: 30%;
+    transform: none;
+}
+
+#terminalWindow {
+    top: 30%;
+    left: 30%;
+    transform: none;
+}
+
+#browserWindow {
+    top: 30%;
+    left: 30%;
+    transform: none;
+}
+
+/* Add cascade effect for stacked windows */
+.window:nth-child(2) { z-index: 2; }
+.window:nth-child(3) { z-index: 3; }
+.window:nth-child(4) { z-index: 4; }
+.window:nth-child(5) { z-index: 5; }
+.window:nth-child(6) { z-index: 6; }
+.window:nth-child(7) { z-index: 7; }
+
+/* Ensure windows stay within viewport */
+@media (max-width: 768px) {
+    #widgets {
+        width: 200px;
+        right: 10px;
+    }
+    
+    .widget {
+        font-size: 12px;
+    }
 }
 
 /* Window Animations */
@@ -428,15 +493,19 @@ input[type="submit"]:hover {
 
     .icon {
         width: 60px;
+        margin: 10px;
     }
 
     .icon img {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
+        pointer-events: auto;
     }
 
     .icon span {
-        font-size: 10px;
+        font-size: 11px;
+        padding: 2px;
+        background: rbga(0,0,0,0.5);
     }
 
     .widget {
@@ -1296,6 +1365,11 @@ body, .window, .window * {
     }
 }
 
+/* Specific Widget Styles */
+.neural-widget, .system-widget, .threat-map-widget {
+    flex-shrink: 0; /* Prevent widgets from shrinking */
+}
+
 /* Neural Network Widget Styles */
 .neural-widget {
     background: rgba(0, 0, 0, 0.8);
@@ -1307,6 +1381,7 @@ body, .window, .window * {
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
+    height: 250px;
 }
 
 .widget-header {
@@ -1455,6 +1530,7 @@ body, .window, .window * {
     flex-shrink:0;
 }
 
+/* Threat Map specific styles */
 .threat-map-container {
     height: 150px;
     border: 1px solid rgba(0, 255, 0, 0.3);
@@ -1462,6 +1538,98 @@ body, .window, .window * {
     position: relative;
     overflow: hidden;
     background: rgba(0, 20, 0, 0.3);
+}
+
+.pixel-map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.continent {
+    position: absolute;
+    background: rgba(0, 255, 0, 0.2);
+    border: 1px solid rgba(0, 255, 0, 0.5);
+    box-shadow: 0 0 5px #0f0;
+}
+
+/* Continent Positions */
+.na {  /* North America */
+    width: 40px;
+    height: 30px;
+    top: 20px;
+    left: 30px;
+    clip-path: polygon(0 20%, 100% 0, 80% 100%, 0 80%);
+}
+
+.sa {  /* South America */
+    width: 25px;
+    height: 35px;
+    top: 60px;
+    left: 60px;
+    clip-path: polygon(20% 0, 100% 20%, 80% 100%, 0 80%);
+}
+
+.eu {  /* Europe */
+    width: 25px;
+    height: 20px;
+    top: 25px;
+    left: 110px;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%, 20% 100%);
+}
+
+.af {  /* Africa */
+    width: 30px;
+    height: 35px;
+    top: 45px;
+    left: 105px;
+    clip-path: polygon(20% 0, 100% 20%, 80% 100%, 0 80%);
+}
+
+.as {  /* Asia */
+    width: 50px;
+    height: 40px;
+    top: 20px;
+    left: 135px;
+    clip-path: polygon(0 30%, 100% 0, 100% 100%, 20% 100%);
+}
+
+.au {  /* Australia */
+    width: 25px;
+    height: 20px;
+    top: 70px;
+    left: 170px;
+    clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 80%);
+}
+
+/* Attack point animations */
+.attack-point {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #f00;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #f00;
+    animation: pulse 2s infinite;
+}
+
+.attack-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, #f00, transparent);
+    animation: attack-trace 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes attack-trace {
+    0% { opacity: 0; transform: scaleX(0); }
+    50% { opacity: 0.6; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(1); }
 }
 
 .world-map {
@@ -1781,4 +1949,7 @@ body, .window, .window * {
     from { width: 0; }
 }
 
-
+/* Header Styles */
+.section-header {
+    margin-bottom: 20px;
+}

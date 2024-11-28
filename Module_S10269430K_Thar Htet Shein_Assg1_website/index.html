@@ -47,140 +47,129 @@
         </div>
 
         <!-- Widgets -->
-        <!-- Widgets -->
-    <!-- Widgets -->
-    <!-- Widgets -->
-    <div id="widgets">
-        <div class="widgets-row">
-            <div class="widgets-column">
-                <!-- Neural Network Status Widget -->
-                <div class="widget neural-widget">
-                    <div id="neural-status">
+        <div id="widgets">
+            <div class="widgets-row">
+                <div class="widgets-column">
+                    <!-- Neural Network Widget -->
+                    <div class="widget neural-widget">
+                        <div id="neural-status">
+                            <div class="widget-header">
+                                <span class="status-pulse"></span>
+                                Neural Network Status
+                            </div>
+        
+                            <div class="neural-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-label">NEURAL SYNC</span>
+                                    <div class="neural-bar-container">
+                                        <div id="sync-bar" class="neural-bar">
+                                            <span class="percentage">98%</span>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="metric-item">
+                                    <span class="metric-label">QUANTUM FLUX</span>
+                                    <div class="neural-bar-container">
+                                        <div id="quantum-bar" class="neural-bar">
+                                            <span class="percentage">85%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="active-processes">
+                                <div class="process">
+                                    <span class="process-name">[CORE_PROCESS]</span>
+                                    <span class="process-status active">ACTIVE</span>
+                                </div>
+                                <div class="process">
+                                    <span class="process-name">[NEURAL_SCAN]</span>
+                                    <span class="process-status standby">STANDBY</span>
+                                </div>
+                            </div>
+        
+                            <div class="network-stats">
+                                <div class="stat-row">
+                                    <span class="stat-label">UPTIME:</span>
+                                    <span id="uptime-counter" class="stat-value">72:14:33</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">THREAT LEVEL:</span>
+                                    <span class="stat-value secure">MINIMAL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- System Performance Widget -->
+                    <div class="widget system-widget">
+                        <div id="system-performance">
+                            System Performance
+                            <div>CPU Usage: <span id="cpu-percentage">0%</span></div>
+                            <div id="cpu-bar-container">
+                                <div id="cpu-bar"></div>
+                            </div>
+                            <div>Memory Usage: <span id="memory-percentage">0%</span></div>
+                            <div id="memory-bar-container">
+                                <div id="memory-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="widget threat-map-widget">
                         <div class="widget-header">
-                            <span class="status-pulse"></span>
-                            Neural Network Status
+                            <span class="status-pulse alert"></span>
+                            Global Threat Matrix
                         </div>
-                        
-                        <div class="neural-metrics">
-                            <div class="metric-item">
-                                <span class="metric-label">NEURAL SYNC</span>
-                                <div class="neural-bar-container">
-                                    <div class="neural-bar" id="sync-bar">
-                                        <span class="percentage">98%</span>
-                                    </div>
+                        <div class="threat-map-container">
+                            <div class="pixel-map">
+                                <div class="continent na"></div>
+                                <div class="continent sa"></div>
+                                <div class="continent eu"></div>
+                                <div class="continent af"></div>
+                                <div class="continent as"></div>
+                                <div class="continent au"></div>
+                                <div id="attack-points"></div>
+                            </div>
+                        </div>
+                        <div class="threat-stats">
+                            <div class="stat-group">
+                                <div class="threat-stat">
+                                    <span class="stat-label">ACTIVE THREATS</span>
+                                    <span id="active-threats" class="stat-value">247</span>
+                                </div>
+                                <div class="threat-stat">
+                                    <span class="stat-label">BLOCKED ATTACKS</span>
+                                    <span id="blocked-attacks" class="stat-value">1.5M</span>
                                 </div>
                             </div>
-
-                            <div class="metric-item">
-                                <span class="metric-label">QUANTUM FLUX</span>
-                                <div class="neural-bar-container">
-                                    <div class="neural-bar" id="quantum-bar">
-                                        <span class="percentage">85%</span>
-                                    </div>
+                            <div class="threat-type-list">
+                                <div class="threat-type">
+                                    <span class="type-indicator ddos"></span>
+                                    <span class="type-label">DDoS</span>
+                                    <span class="type-count">125</span>
+                                </div>
+                                <div class="threat-type">
+                                    <span class="type-indicator malware"></span>
+                                    <span class="type-label">MALWARE</span>
+                                    <span class="type-count">89</span>
+                                </div>
+                                <div class="threat-type">
+                                    <span class="type-indicator ransomware"></span>
+                                    <span class="type-label">RANSOMWARE</span>
+                                    <span class="type-count">33</span>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="active-processes">
-                            <div class="process">
-                                <span class="process-name">[CORE_PROCESS]</span>
-                                <span class="process-status active">ACTIVE</span>
-                            </div>
-                            <div class="process">
-                                <span class="process-name">[NEURAL_SCAN]</span>
-                                <span class="process-status standby">STANDBY</span>
-                            </div>
+                        <div class="recent-alerts">
+                            <div class="alert-header">LIVE THREAT FEED</div>
+                            <div id="threat-feed" class="alert-list"></div>
                         </div>
-
-                        <div class="network-stats">
-                            <div class="stat-row">
-                                <span class="stat-label">UPTIME:</span>
-                                <span class="stat-value" id="uptime-counter">72:14:33</span>
-                            </div>
-                            <div class="stat-row">
-                                <span class="stat-label">THREAT LEVEL:</span>
-                                <span class="stat-value secure">MINIMAL</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- System Performance Widget -->
-                <div class="widget system-widget">
-                    <div id="system-performance">
-                        <p>System Performance</p>
-                        <p>CPU Usage: <span id="cpu-percentage">0%</span></p>
-                        <div id="cpu-bar-container">
-                            <div id="cpu-bar"></div>
-                        </div>
-                        <p>Memory Usage: <span id="memory-percentage">0%</span></p>
-                        <div id="memory-bar-container">
-                            <div id="memory-bar"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Global Threat Map Widget -->
-            <div class="widget threat-map-widget">
-                <div class="widget-header">
-                    <span class="status-pulse alert"></span>
-                    Global Threat Matrix
-                </div>
-                
-                <div class="threat-map-container">
-                    <div class="threat-map">
-                        <svg viewBox="0 0 200 100" class="world-map">
-                            <!-- Simplified world map outline -->
-                            <path class="map-path" d="M10,40 L30,40 L35,35 L40,38 L50,35 L60,40 L70,38 L80,42 L90,38 L100,40 L110,35 L120,38 L130,35 L140,40 L150,38 L160,42 L170,38 L180,40 L190,35" />
-                            
-                            <!-- Attack points that will be dynamically added -->
-                            <circle class="attack-point source" cx="45" cy="45" r="1"/>
-                            <circle class="attack-point target" cx="145" cy="35" r="1"/>
-                            <line class="attack-line" x1="45" y1="45" x2="145" y2="35"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <div class="threat-stats">
-                    <div class="stat-group">
-                        <div class="threat-stat">
-                            <span class="stat-label">ACTIVE THREATS</span>
-                            <span class="stat-value" id="active-threats">247</span>
-                        </div>
-                        <div class="threat-stat">
-                            <span class="stat-label">BLOCKED ATTACKS</span>
-                            <span class="stat-value" id="blocked-attacks">1.5M</span>
-                        </div>
-                    </div>
-                    <div class="threat-type-list">
-                        <div class="threat-type">
-                            <span class="type-indicator ddos"></span>
-                            <span class="type-label">DDoS</span>
-                            <span class="type-count">125</span>
-                        </div>
-                        <div class="threat-type">
-                            <span class="type-indicator malware"></span>
-                            <span class="type-label">MALWARE</span>
-                            <span class="type-count">89</span>
-                        </div>
-                        <div class="threat-type">
-                            <span class="type-indicator ransomware"></span>
-                            <span class="type-label">RANSOMWARE</span>
-                            <span class="type-count">33</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recent-alerts">
-                    <div class="alert-header">LIVE THREAT FEED</div>
-                    <div class="alert-list" id="threat-feed">
-                        <!-- Alerts will be added dynamically -->
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     
 
     <!-- Windows -->
