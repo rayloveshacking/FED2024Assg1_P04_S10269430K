@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <title>My Retro Desktop Portfolio</title>
     <link rel="stylesheet" href="style.css">
@@ -40,136 +41,8 @@
             <img src="icons/terminal.png" alt="Terminal">
             <span>Terminal</span>
         </div>
-        <!-- Browser Icon -->
-        <div id="icon-browser" class="icon" data-window="browserWindow" title="Browser">
-            <img src="icons/browser.png" alt="Browser">
-            <span>Browser</span>
-        </div>
+        
 
-        <!-- Widgets -->
-        <div id="widgets">
-            <div class="widgets-row">
-                <div class="widgets-column">
-                    <!-- Neural Network Widget -->
-                    <div class="widget neural-widget">
-                        <div id="neural-status">
-                            <div class="widget-header">
-                                <span class="status-pulse"></span>
-                                Neural Network Status
-                            </div>
-        
-                            <div class="neural-metrics">
-                                <div class="metric-item">
-                                    <span class="metric-label">NEURAL SYNC</span>
-                                    <div class="neural-bar-container">
-                                        <div id="sync-bar" class="neural-bar">
-                                            <span class="percentage">98%</span>
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="metric-item">
-                                    <span class="metric-label">QUANTUM FLUX</span>
-                                    <div class="neural-bar-container">
-                                        <div id="quantum-bar" class="neural-bar">
-                                            <span class="percentage">85%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div class="active-processes">
-                                <div class="process">
-                                    <span class="process-name">[CORE_PROCESS]</span>
-                                    <span class="process-status active">ACTIVE</span>
-                                </div>
-                                <div class="process">
-                                    <span class="process-name">[NEURAL_SCAN]</span>
-                                    <span class="process-status standby">STANDBY</span>
-                                </div>
-                            </div>
-        
-                            <div class="network-stats">
-                                <div class="stat-row">
-                                    <span class="stat-label">UPTIME:</span>
-                                    <span id="uptime-counter" class="stat-value">72:14:33</span>
-                                </div>
-                                <div class="stat-row">
-                                    <span class="stat-label">THREAT LEVEL:</span>
-                                    <span class="stat-value secure">MINIMAL</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <!-- System Performance Widget -->
-                    <div class="widget system-widget">
-                        <div id="system-performance">
-                            System Performance
-                            <div>CPU Usage: <span id="cpu-percentage">0%</span></div>
-                            <div id="cpu-bar-container">
-                                <div id="cpu-bar"></div>
-                            </div>
-                            <div>Memory Usage: <span id="memory-percentage">0%</span></div>
-                            <div id="memory-bar-container">
-                                <div id="memory-bar"></div>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <div class="widget threat-map-widget">
-                        <div class="widget-header">
-                            <span class="status-pulse alert"></span>
-                            Global Threat Matrix
-                        </div>
-                        <div class="threat-map-container">
-                            <div class="pixel-map">
-                                <div class="continent na"></div>
-                                <div class="continent sa"></div>
-                                <div class="continent eu"></div>
-                                <div class="continent af"></div>
-                                <div class="continent as"></div>
-                                <div class="continent au"></div>
-                                <div id="attack-points"></div>
-                            </div>
-                        </div>
-                        <div class="threat-stats">
-                            <div class="stat-group">
-                                <div class="threat-stat">
-                                    <span class="stat-label">ACTIVE THREATS</span>
-                                    <span id="active-threats" class="stat-value">247</span>
-                                </div>
-                                <div class="threat-stat">
-                                    <span class="stat-label">BLOCKED ATTACKS</span>
-                                    <span id="blocked-attacks" class="stat-value">1.5M</span>
-                                </div>
-                            </div>
-                            <div class="threat-type-list">
-                                <div class="threat-type">
-                                    <span class="type-indicator ddos"></span>
-                                    <span class="type-label">DDoS</span>
-                                    <span class="type-count">125</span>
-                                </div>
-                                <div class="threat-type">
-                                    <span class="type-indicator malware"></span>
-                                    <span class="type-label">MALWARE</span>
-                                    <span class="type-count">89</span>
-                                </div>
-                                <div class="threat-type">
-                                    <span class="type-indicator ransomware"></span>
-                                    <span class="type-label">RANSOMWARE</span>
-                                    <span class="type-count">33</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="recent-alerts">
-                            <div class="alert-header">LIVE THREAT FEED</div>
-                            <div id="threat-feed" class="alert-list"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     
 
     <!-- Windows -->
@@ -358,7 +231,7 @@
             <div id="terminal">
                 <div id="terminal-output"></div>
                 <div id="terminal-input-line">
-                    <span id="terminal-prompt">$</span>
+                    <span id="terminal-prompt">[user@retro-os ~]$</span>
                     <input type="text" id="terminal-input" autofocus>
                 </div>
             </div>
