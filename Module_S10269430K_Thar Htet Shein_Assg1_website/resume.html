@@ -160,12 +160,14 @@
 
 <script>
     function updateResumeTimestamp() {
-        const timestampElement = document.getElementById('resume-timestamp');
+    const timestampElement = document.getElementById('resume-timestamp');
+    if (timestampElement) {
         setInterval(() => {
             const now = new Date();
             timestampElement.textContent = `TIMESTAMP: ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
         }, 1000);
     }
+}
     
     document.addEventListener('DOMContentLoaded', updateResumeTimestamp);
 </script>

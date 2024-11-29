@@ -59,66 +59,47 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function makeDraggable(element) {
-        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-        element.addEventListener('mousedown', dragMouseDown);
-        element.addEventListener('touchstart', dragTouchStart, { passive: false });
-
-        function dragMouseDown(e) {
+        const header = element.querySelector('.window-header') || element;
+        let startX, startY, startLeft, startTop;
+        
+        header.addEventListener('mousedown', startDrag);
+        header.addEventListener('touchstart', startDrag, { passive: false });
+    
+        function startDrag(e) {
+            if (e.target.tagName === 'BUTTON') return;
             e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.addEventListener('mouseup', closeDragElement);
-            document.addEventListener('mousemove', elementDrag);
+            
+            const event = e.touches ? e.touches[0] : e;
+            startX = event.clientX;
+            startY = event.clientY;
+            startLeft = parseInt(window.getComputedStyle(element).left);
+            startTop = parseInt(window.getComputedStyle(element).top);
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchend', stopDrag);
         }
-
-        function dragTouchStart(e) {
+    
+        function drag(e) {
             e.preventDefault();
-            const touch = e.touches[0];
-            pos3 = touch.clientX;
-            pos4 = touch.clientY;
-            document.addEventListener('touchend', closeDragElement);
-            document.addEventListener('touchmove', function(e) {
-                if (e.target.closest('.window-header')) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
+            const event = e.touches ? e.touches[0] : e;
+            
+            const deltaX = event.clientX - startX;
+            const deltaY = event.clientY - startY;
+            
+            const newLeft = startLeft + deltaX;
+            const newTop = startTop + deltaY;
+            
+            element.style.left = `${Math.max(0, Math.min(window.innerWidth - element.offsetWidth, newLeft))}px`;
+            element.style.top = `${Math.max(0, Math.min(window.innerHeight - element.offsetHeight, newTop))}px`;
         }
-
-        function elementDrag(e) {
-            e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            
-            const newTop = element.offsetTop - pos2;
-            const newLeft = element.offsetLeft - pos1;
-            
-            element.style.top = Math.max(0, Math.min(window.innerHeight - element.offsetHeight, newTop)) + "px";
-            element.style.left = Math.max(0, Math.min(window.innerWidth - element.offsetWidth, newLeft)) + "px";
-        }
-
-        function elementTouchDrag(e) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            pos1 = pos3 - touch.clientX;
-            pos2 = pos4 - touch.clientY;
-            pos3 = touch.clientX;
-            pos4 = touch.clientY;
-            
-            const newTop = element.offsetTop - pos2;
-            const newLeft = element.offsetLeft - pos1;
-            
-            element.style.top = Math.max(0, Math.min(window.innerHeight - element.offsetHeight, newTop)) + "px";
-            element.style.left = Math.max(0, Math.min(window.innerWidth - element.offsetWidth, newLeft)) + "px";
-        }
-
-        function closeDragElement() {
-            document.removeEventListener('mouseup', closeDragElement);
-            document.removeEventListener('mousemove', elementDrag);
-            document.removeEventListener('touchend', closeDragElement);
-            document.removeEventListener('touchmove', elementTouchDrag);
+    
+        function stopDrag() {
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchend', stopDrag);
         }
     }
 
@@ -165,42 +146,61 @@ document.addEventListener('DOMContentLoaded', function() {
     function openWindow(windowId) {
         const win = document.getElementById(windowId);
         if (!win) return;
-
+    
         win.style.display = 'flex';
-        bringToFront(win);
-        
-        // Load content if needed
-        if (!win.dataset.loaded) {
-            loadWindowContent(windowId);
-            win.dataset.loaded = 'true';
+        if (!win.style.top || !win.style.left) {
+            positionWindow(win);
         }
-
-        positionWindow(win);
+        bringToFront(win);
+    
+        // Load content immediately
+        loadWindowContent(windowId);
+        
+        if (windowId === 'terminalWindow') {
+            setTimeout(initializeTerminal, 100);
+        }
     }
 
     function loadWindowContent(windowId) {
+        // Don't load content for terminal window
+        if (windowId === 'terminalWindow') {
+            initializeTerminal();
+            return;
+        }
+    
         const contentMap = {
+            'homeWindow': 'home.html',
             'aboutWindow': 'about.html',
             'portfolioWindow': 'portfolio.html',
             'contactWindow': 'contact.html',
             'resumeWindow': 'resume.html'
         };
-
+    
         if (contentMap[windowId]) {
+            const win = document.getElementById(windowId);
+            const content = win.querySelector('.window-content');
+            
+            // Set loading state
+            content.innerHTML = '<div style="color: #0f0;">Loading...</div>';
+            
             fetch(contentMap[windowId])
                 .then(response => response.text())
                 .then(html => {
-                    const win = document.getElementById(windowId);
-                    const content = win.querySelector('.window-content');
                     content.innerHTML = html;
-
-                    if (windowId === 'terminalWindow') {
-                        initializeTerminal();
+                    if (win.querySelector('#resume-timestamp')) {
+                        setInterval(() => {
+                            const timestamp = win.querySelector('#resume-timestamp');
+                            const now = new Date();
+                            timestamp.textContent = `TIMESTAMP: ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+                        }, 1000);
                     }
                 })
-                .catch(error => console.error('Error loading content:', error));
+                .catch(() => {
+                    content.innerHTML = '<div style="color: #0f0;">Failed to load content</div>';
+                });
         }
     }
+    
 
     function closeWindow(win) {
         win.style.display = 'none';
@@ -219,16 +219,32 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleMaximize(win) {
         if (win.classList.contains('maximized')) {
             win.classList.remove('maximized');
-            win.style = win.dataset.originalStyle || '';
+            Object.assign(win.style, {
+                width: win.dataset.originalWidth || '600px',
+                height: win.dataset.originalHeight || '400px',
+                top: win.dataset.originalTop || '50%',
+                left: win.dataset.originalLeft || '50%',
+                borderRadius: '5px'
+            });
         } else {
-            win.dataset.originalStyle = win.style.cssText;
+            // Store current dimensions
+            win.dataset.originalWidth = win.style.width;
+            win.dataset.originalHeight = win.style.height;
+            win.dataset.originalTop = win.style.top;
+            win.dataset.originalLeft = win.style.left;
+            
+            // Apply maximized state
             win.classList.add('maximized');
-            win.style.width = '100%';
-            win.style.height = 'calc(100% - 40px)'; // Account for taskbar
-            win.style.top = '0';
-            win.style.left = '0';
+            Object.assign(win.style, {
+                width: '100%',
+                height: 'calc(100vh - 40px)',
+                top: '0',
+                left: '0',
+                borderRadius: '0'
+            });
         }
     }
+    
 
     function bringToFront(win) {
         zIndex++;
@@ -237,17 +253,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function positionWindow(win) {
         if (window.innerWidth <= 768) {
-            // Mobile positioning
-            win.style.width = '90%';
-            win.style.height = '80%';
-            win.style.left = '5%';
-            win.style.top = '10%';
+            Object.assign(win.style, {
+                width: '95%',
+                height: '80%',
+                left: '2.5%',
+                top: '10%',
+                transform: 'none',
+                position: 'fixed'
+            });
         } else {
-            // Desktop positioning - slightly random
-            const maxX = window.innerWidth - win.offsetWidth - 50;
-            const maxY = window.innerHeight - win.offsetHeight - 50;
-            win.style.left = Math.floor(Math.random() * maxX + 25) + 'px';
-            win.style.top = Math.floor(Math.random() * maxY + 25) + 'px';
+            const maxX = window.innerWidth - 650;
+            const maxY = window.innerHeight - 450;
+            Object.assign(win.style, {
+                width: '600px',
+                height: '400px',
+                left: Math.max(0, Math.min(maxX, Math.floor(Math.random() * maxX))) + 'px',
+                top: Math.max(0, Math.min(maxY, Math.floor(Math.random() * maxY))) + 'px',
+                position: 'absolute'
+            });
         }
     }
 
@@ -330,24 +353,22 @@ document.addEventListener('DOMContentLoaded', function() {
         let commandHistory = [];
         let historyIndex = -1;
     
-        // Set initial prompt
-        prompt.textContent = '[user@retro-os ~]$ ';
-    
         const commands = {
-            'help': 'Available commands:\n  help - Show this help\n  clear - Clear terminal\n  about - About me\n  ls - List files\n  contact - Contact info\n  projects - List projects',
+            'help': 'Available commands:\n  help - Show this help\n  clear - Clear terminal\n  about - About me\n  ls - List files\n  whoami - Show current user\n  date - Show current date\n  pwd - Show current directory',
             'clear': () => terminalOutput.innerHTML = '',
             'about': 'Security-focused Full Stack Developer\nSpecializing in secure application development and penetration testing.',
             'ls': 'Documents/  Projects/  README.md  .config',
-            'contact': 'Email: winchestervicious@gmail.com\nGitHub: rayloveshacking\nLinkedIn: thar-htet-s-0368662a4',
-            'projects': '1. C5ThreatDetector - Security analysis tool\n2. FoodPal - Voice-assisted food ordering system\n3. Security Research Projects'
+            'whoami': 'user@retro-os',
+            'date': () => new Date().toLocaleString(),
+            'pwd': '/home/user'
         };
     
         terminalInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
-                const command = this.value.trim();
+                const command = this.value.trim().toLowerCase();
                 
                 // Add command to output
-                terminalOutput.innerHTML += `${prompt.textContent}${command}\n`;
+                terminalOutput.innerHTML += `${prompt.textContent} ${command}\n`;
                 
                 // Execute command
                 if (command) {
@@ -367,7 +388,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Command history navigation
-            if (e.key === 'ArrowUp') {
+            if (e.key === 'ArrowUp' && commandHistory.length) {
                 e.preventDefault();
                 if (historyIndex > 0) {
                     historyIndex--;
@@ -387,8 +408,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
         // Keep focus on input when clicking anywhere in terminal
-        terminal.addEventListener('click', () => terminalInput.focus());
-        
+        terminal.addEventListener('click', () => {
+            terminalInput.focus();
+        });
+    
         // Initial focus
         terminalInput.focus();
     }
