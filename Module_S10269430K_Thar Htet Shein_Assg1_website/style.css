@@ -1949,7 +1949,9 @@ body, .window, .window * {
     from { width: 0; }
 }
 
-/* Header Styles */
-.section-header {
-    margin-bottom: 20px;
+.window.maximized {
+    position: fixed !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 1000;
 }

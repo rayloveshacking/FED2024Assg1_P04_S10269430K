@@ -113,12 +113,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const maximizeBtn = win.querySelector('.maximize-button');
             const minimizeBtn = win.querySelector('.minimize-button');
     
-            // Window controls - Add touch events
-            closeBtn.addEventListener('click', () => closeWindow(win));
-            closeBtn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                closeWindow(win);
-            });
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => closeWindow(win));
+                closeBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    closeWindow(win);
+                });
+            }
     
             if (maximizeBtn) {
                 maximizeBtn.addEventListener('click', () => toggleMaximize(win));
@@ -152,13 +153,8 @@ document.addEventListener('DOMContentLoaded', function() {
             positionWindow(win);
         }
         bringToFront(win);
-    
-        // Load content immediately
+        initializeWindows(); // Reinitialize controls
         loadWindowContent(windowId);
-        
-        if (windowId === 'terminalWindow') {
-            setTimeout(initializeTerminal, 100);
-        }
     }
 
     function loadWindowContent(windowId) {
@@ -168,8 +164,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
     
+        // Skip loading for home window since content is in index.html
+        if (windowId === 'homeWindow') {
+            return;
+        }
+    
         const contentMap = {
-            'homeWindow': 'home.html',
             'aboutWindow': 'about.html',
             'portfolioWindow': 'portfolio.html',
             'contactWindow': 'contact.html',
@@ -180,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const win = document.getElementById(windowId);
             const content = win.querySelector('.window-content');
             
-            // Set loading state
             content.innerHTML = '<div style="color: #0f0;">Loading...</div>';
             
             fetch(contentMap[windowId])
@@ -204,11 +203,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function closeWindow(win) {
         win.style.display = 'none';
-        // Remove any touch event listeners to prevent memory leaks
-        const header = win.querySelector('.window-header');
-        const newHeader = header.cloneNode(true);
-        header.parentNode.replaceChild(newHeader, header);
-        initializeWindows(); // Re-initialize the window controls
+        // Only clone header for non-terminal windows
+        if (win.id !== 'terminalWindow') {
+            const header = win.querySelector('.window-header');
+            const newHeader = header.cloneNode(true);
+            header.parentNode.replaceChild(newHeader, header);
+        }
+        initializeWindows();
     }
 
     function minimizeWindow(win) {
@@ -219,31 +220,30 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleMaximize(win) {
         if (win.classList.contains('maximized')) {
             win.classList.remove('maximized');
-            Object.assign(win.style, {
-                width: win.dataset.originalWidth || '600px',
-                height: win.dataset.originalHeight || '400px',
-                top: win.dataset.originalTop || '50%',
-                left: win.dataset.originalLeft || '50%',
-                borderRadius: '5px'
-            });
+            // Restore original dimensions
+            win.style.width = win.dataset.originalWidth || '600px';
+            win.style.height = win.dataset.originalHeight || '400px';
+            win.style.top = win.dataset.originalTop || '50%';
+            win.style.left = win.dataset.originalLeft || '50%';
+            win.style.transform = 'none';
         } else {
-            // Store current dimensions
+            // Store current dimensions before maximizing
             win.dataset.originalWidth = win.style.width;
             win.dataset.originalHeight = win.style.height;
             win.dataset.originalTop = win.style.top;
             win.dataset.originalLeft = win.style.left;
             
-            // Apply maximized state
             win.classList.add('maximized');
-            Object.assign(win.style, {
-                width: '100%',
-                height: 'calc(100vh - 40px)',
-                top: '0',
-                left: '0',
-                borderRadius: '0'
-            });
+            // Set maximized dimensions
+            win.style.width = '100%';
+            win.style.height = 'calc(100vh - 40px)'; // Account for taskbar
+            win.style.top = '0';
+            win.style.left = '0';
+            win.style.transform = 'none';
         }
+        bringToFront(win);
     }
+    
     
 
     function bringToFront(win) {
@@ -258,8 +258,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 height: '80%',
                 left: '2.5%',
                 top: '10%',
+                position: 'fixed',
                 transform: 'none',
-                position: 'fixed'
+                margin: '0'
             });
         } else {
             const maxX = window.innerWidth - 650;
@@ -269,11 +270,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 height: '400px',
                 left: Math.max(0, Math.min(maxX, Math.floor(Math.random() * maxX))) + 'px',
                 top: Math.max(0, Math.min(maxY, Math.floor(Math.random() * maxY))) + 'px',
-                position: 'absolute'
+                position: 'absolute',
+                transform: 'none',
+                margin: '0'
             });
         }
     }
-
     // Taskbar functionality
     function initializeTaskbar() {
         const startButton = document.getElementById('start-button');
@@ -348,7 +350,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const terminal = document.getElementById('terminal');
         const terminalInput = document.getElementById('terminal-input');
         const terminalOutput = document.getElementById('terminal-output');
-        const prompt = document.getElementById('terminal-prompt');
         
         let commandHistory = [];
         let historyIndex = -1;
@@ -360,29 +361,35 @@ document.addEventListener('DOMContentLoaded', function() {
             'ls': 'Documents/  Projects/  README.md  .config',
             'whoami': 'user@retro-os',
             'date': () => new Date().toLocaleString(),
-            'pwd': '/home/user'
+            'pwd': '/home/user',
+            'cd': 'Command not found: cd'
         };
+    
+        function executeCommand(cmd) {
+            if (!cmd) return '';
+            
+            const output = commands[cmd];
+            if (output) {
+                return typeof output === 'function' ? output() : output;
+            }
+            return `Command not found: ${cmd}`;
+        }
     
         terminalInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 const command = this.value.trim().toLowerCase();
-                
-                // Add command to output
-                terminalOutput.innerHTML += `${prompt.textContent} ${command}\n`;
-                
-                // Execute command
-                if (command) {
-                    const output = commands[command];
-                    if (output) {
-                        terminalOutput.innerHTML += (typeof output === 'function' ? output() : output) + '\n';
-                    } else {
-                        terminalOutput.innerHTML += `Command not found: ${command}\n`;
+                if (command === 'clear') {
+                    terminalOutput.innerHTML = '';
+                } else {
+                    // Execute command and get output
+                    const output = executeCommand(command);
+                    if (command) {
+                        terminalOutput.innerHTML += `[user@retro-os ~]$ ${command}\n${output}\n`;
+                        commandHistory.push(command);
                     }
-                    commandHistory.push(command);
-                    historyIndex = commandHistory.length;
                 }
                 
-                // Clear input and scroll to bottom
+                historyIndex = commandHistory.length;
                 this.value = '';
                 terminal.scrollTop = terminal.scrollHeight;
             }
@@ -394,8 +401,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     historyIndex--;
                     this.value = commandHistory[historyIndex];
                 }
-            }
-            if (e.key === 'ArrowDown') {
+            } else if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 if (historyIndex < commandHistory.length - 1) {
                     historyIndex++;
@@ -407,12 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     
-        // Keep focus on input when clicking anywhere in terminal
-        terminal.addEventListener('click', () => {
-            terminalInput.focus();
-        });
-    
-        // Initial focus
+        terminal.addEventListener('click', () => terminalInput.focus());
         terminalInput.focus();
     }
 
