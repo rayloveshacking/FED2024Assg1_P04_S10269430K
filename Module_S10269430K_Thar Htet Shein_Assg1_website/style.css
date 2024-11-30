@@ -1950,8 +1950,12 @@ body, .window, .window * {
 }
 
 .window.maximized {
-    position: fixed !important;
+    transition: all 0.3s ease;
+    border-radius: 0 !important;
+    width: 100% !important;
+    height: calc(100vh - 40px) !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
     margin: 0 !important;
-    padding: 0 !important;
-    z-index: 1000;
 }

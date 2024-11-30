@@ -148,12 +148,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const win = document.getElementById(windowId);
         if (!win) return;
     
+        setupWindowControls(win);
+        
         win.style.display = 'flex';
         if (!win.style.top || !win.style.left) {
             positionWindow(win);
         }
         bringToFront(win);
-        initializeWindows(); // Reinitialize controls
         loadWindowContent(windowId);
     }
 
@@ -199,17 +200,61 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         }
     }
+
+    function setupWindowControls(win) {
+        // Remove existing listeners first
+        win.removeEventListener('mousedown', () => bringToFront(win));
+        win.removeEventListener('touchstart', () => bringToFront(win));
+        
+        const header = win.querySelector('.window-header');
+        const closeBtn = win.querySelector('.close-button');
+        const maximizeBtn = win.querySelector('.maximize-button');
+        const minimizeBtn = win.querySelector('.minimize-button');
     
+        const closeHandler = () => closeWindow(win);
+        const maximizeHandler = () => toggleMaximize(win);
+        const minimizeHandler = () => minimizeWindow(win);
+    
+        if (closeBtn) {
+            closeBtn.replaceWith(closeBtn.cloneNode(true));
+            const newCloseBtn = win.querySelector('.close-button');
+            newCloseBtn.addEventListener('click', closeHandler);
+            newCloseBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                closeHandler();
+            });
+        }
+    
+        if (maximizeBtn) {
+            maximizeBtn.replaceWith(maximizeBtn.cloneNode(true));
+            const newMaxBtn = win.querySelector('.maximize-button');
+            newMaxBtn.addEventListener('click', maximizeHandler);
+            newMaxBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                maximizeHandler();
+            });
+        }
+    
+        if (minimizeBtn) {
+            minimizeBtn.replaceWith(minimizeBtn.cloneNode(true));
+            const newMinBtn = win.querySelector('.minimize-button');
+            newMinBtn.addEventListener('click', minimizeHandler);
+            newMinBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                minimizeHandler();
+            });
+        }
+    
+        win.addEventListener('mousedown', () => bringToFront(win));
+        win.addEventListener('touchstart', () => bringToFront(win));
+        
+        makeDraggable(win);
+    }
+
 
     function closeWindow(win) {
         win.style.display = 'none';
-        // Only clone header for non-terminal windows
-        if (win.id !== 'terminalWindow') {
-            const header = win.querySelector('.window-header');
-            const newHeader = header.cloneNode(true);
-            header.parentNode.replaceChild(newHeader, header);
-        }
-        initializeWindows();
+        win.classList.remove('maximized');
     }
 
     function minimizeWindow(win) {
@@ -220,26 +265,29 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleMaximize(win) {
         if (win.classList.contains('maximized')) {
             win.classList.remove('maximized');
-            // Restore original dimensions
+            // Restore original dimensions and position
             win.style.width = win.dataset.originalWidth || '600px';
             win.style.height = win.dataset.originalHeight || '400px';
-            win.style.top = win.dataset.originalTop || '50%';
-            win.style.left = win.dataset.originalLeft || '50%';
-            win.style.transform = 'none';
+            win.style.top = win.dataset.originalTop || '50px';
+            win.style.left = win.dataset.originalLeft || '50px';
+            win.style.transform = win.dataset.originalTransform || 'none';
+            win.style.margin = '0';
         } else {
-            // Store current dimensions before maximizing
+            // Store current state before maximizing
             win.dataset.originalWidth = win.style.width;
             win.dataset.originalHeight = win.style.height;
             win.dataset.originalTop = win.style.top;
             win.dataset.originalLeft = win.style.left;
+            win.dataset.originalTransform = win.style.transform;
             
             win.classList.add('maximized');
-            // Set maximized dimensions
+            // Set maximized state
             win.style.width = '100%';
-            win.style.height = 'calc(100vh - 40px)'; // Account for taskbar
+            win.style.height = 'calc(100vh - 40px)';
             win.style.top = '0';
             win.style.left = '0';
             win.style.transform = 'none';
+            win.style.margin = '0';
         }
         bringToFront(win);
     }
@@ -252,6 +300,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function positionWindow(win) {
+        // Don't reposition if window is maximized
+        if (win.classList.contains('maximized')) return;
+    
         if (window.innerWidth <= 768) {
             Object.assign(win.style, {
                 width: '95%',
@@ -265,11 +316,14 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             const maxX = window.innerWidth - 650;
             const maxY = window.innerHeight - 450;
+            const randomX = Math.max(0, Math.min(maxX, Math.floor(Math.random() * maxX)));
+            const randomY = Math.max(0, Math.min(maxY, Math.floor(Math.random() * maxY)));
+            
             Object.assign(win.style, {
                 width: '600px',
                 height: '400px',
-                left: Math.max(0, Math.min(maxX, Math.floor(Math.random() * maxX))) + 'px',
-                top: Math.max(0, Math.min(maxY, Math.floor(Math.random() * maxY))) + 'px',
+                left: `${randomX}px`,
+                top: `${randomY}px`,
                 position: 'absolute',
                 transform: 'none',
                 margin: '0'
