@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         if (window.innerWidth <= 768) {
             Object.assign(win.style, {
-                width: '95%',
+                width: '65%',
                 height: '80%',
                 left: '2.5%',
                 top: '10%',

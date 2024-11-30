@@ -203,38 +203,38 @@ body, .window, .window * {
 }
 
 #aboutWindow {
-    top: 25%;
-    left: 25%;
+    top: 20%;
+    left: 20%;
     transform: none;
 }
 
 #portfolioWindow {
-    top: 30%;
-    left: 30%;
+    top: 20%;
+    left: 20%;
     transform: none;
 }
 
 #resumeWindow {
-    top: 30%;
-    left: 30%;
+    top: 20%;
+    left: 20%;
     transform: none;
 }
 
 #contactWindow {
-    top: 30%;
-    left: 30%;
+    top: 20%;
+    left: 20%;
     transform: none;
 }
 
 #terminalWindow {
-    top: 30%;
-    left: 30%;
+    top: 20%;
+    left: 20%;
     transform: none;
 }
 
 #browserWindow {
-    top: 30%;
-    left: 30%;
+    top: 20%;
+    left: 20%;
     transform: none;
 }
 
